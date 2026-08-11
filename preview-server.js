@@ -306,7 +306,7 @@ var server = http.createServer(function (req, res) {
         var layoutTpl = renderPage(false).replace(/<main>[\s\S]*?<\/main>/, '<main>{% template_content %}</main>');
         var catTpl = fs.readFileSync(path.join(BASE, 'templates/category.tpl'), 'utf8')
           .replace(/\{\{\s*category\.name\s*\}\}/g, catName)
-          .replace(/\{%\s*if category\.description\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, '<div class="ogs-category-description">A seleção exclusiva OGS World para você.</div>')
+          .replace(/\{%\s*if category\.description\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, '')
           .replace(/\{%\s*if products\s*%\}/g, '')
           .replace(/\{%\s*else\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, '')
           .replace(/\{%\s*for product in products\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, renderProductCards())

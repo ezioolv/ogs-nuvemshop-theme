@@ -2014,10 +2014,11 @@ body.ogs {
   color: var(--ogs-text);
   margin-bottom: 2px;
   letter-spacing: 0.02em;
-  line-height: 1.25;
+  line-height: 20px; /* 20px para títulos como HOODIE OGS OVERSIZED */
 }
 .ogs-product__name a {
   color: inherit;
+  font-family: var(--ogs-font-mono);
 }
 .ogs-product__pricing {
   display: flex;
@@ -2031,20 +2032,23 @@ body.ogs {
   font-weight: 400;
   color: var(--ogs-muted);
   text-decoration: line-through;
-  line-height: 1.25;
+  line-height: 17px; /* 17px para preços promocionais */
 }
 .ogs-product__price-current {
   font-size: 12px;
   font-weight: 400;
   color: var(--ogs-text);
-  line-height: 1.25;
+  line-height: 17px; /* 17px para preços */
 }
 .ogs-product__installments {
   font-size: 12px;
-  font-weight: 700; /* Peso 700 conforme solicitado */
+  font-weight: 400;
   color: #777777; /* Cinza chumbo */
-  line-height: 1.25;
+  line-height: 15px; /* 15px para opções de parcelamento */
   margin-top: 2px;
+}
+.ogs-product__installments strong {
+  font-weight: 700; /* Somente a parte contendo valor e parcelas em negrito */
 }
 
 /* Header da Categoria e Barra de Filtros */
