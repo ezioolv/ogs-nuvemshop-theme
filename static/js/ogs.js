@@ -313,4 +313,84 @@
     }
   });
 
+  /* =============================================
+     PDP VARIATION BUTTONS & FORM INTEGRATION
+     ============================================= */
+  document.addEventListener('click', function (e) {
+    var variantBtn = e.target.closest('.ogs-variant-btn');
+    if (variantBtn) {
+      e.preventDefault();
+      var group = variantBtn.closest('.ogs-variant-group');
+      if (group) {
+        var siblings = group.querySelectorAll('.ogs-variant-btn');
+        siblings.forEach(function (btn) { btn.classList.remove('active'); });
+        variantBtn.classList.add('active');
+        
+        var optionId = variantBtn.getAttribute('data-option-id');
+        var hiddenSelect = group.querySelector('.ogs-variant-select-hidden');
+        if (hiddenSelect && optionId) {
+          hiddenSelect.value = optionId;
+          var changeEvent = new Event('change', { bubbles: true });
+          hiddenSelect.dispatchEvent(changeEvent);
+        }
+      }
+    }
+  });
+
+  /* =============================================
+     PDP ADD TO CART FEEDBACK
+     ============================================= */
+  var pdpForm = document.getElementById('product_form');
+  if (pdpForm) {
+    pdpForm.addEventListener('submit', function () {
+      var btnText = pdpForm.querySelector('.js-addtocart-text');
+      if (btnText) {
+        var originalText = btnText.textContent;
+        btnText.textContent = 'ADICIONADO';
+        setTimeout(function () {
+          btnText.textContent = originalText;
+        }, 2500);
+      }
+    });
+  }
+
+  /* =============================================
+     PDP LIGHTBOX FULLSCREEN
+     ============================================= */
+  var galleryItems = document.querySelectorAll('.ogs-product-gallery__item');
+  var lightbox = document.getElementById('ogs-lightbox');
+  var lightboxImg = document.getElementById('ogs-lightbox-img');
+  var lightboxCounter = document.getElementById('ogs-lightbox-counter');
+  var lightboxClose = document.querySelector('.ogs-lightbox__close');
+
+  if (galleryItems.length > 0 && lightbox && lightboxImg) {
+    var totalImages = galleryItems.length;
+
+    galleryItems.forEach(function (item, index) {
+      item.addEventListener('click', function () {
+        var img = item.querySelector('img');
+        if (img) {
+          lightboxImg.src = img.src;
+          if (lightboxCounter) {
+            lightboxCounter.textContent = (index + 1) + ' / ' + totalImages;
+          }
+          lightbox.setAttribute('aria-hidden', 'false');
+        }
+      });
+    });
+
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', function () {
+        lightbox.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) {
+        lightbox.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
+
 })();
+
