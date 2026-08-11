@@ -1,0 +1,3 @@
+primary
+    name = Produtos em destaque
+    description = Produtos exibidos na home da OGS

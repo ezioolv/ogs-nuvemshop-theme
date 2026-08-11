@@ -1,0 +1,5 @@
+title
+    title = OGS — Identidade visual
+text
+    name = topbar_text
+    description = Texto da barra superior

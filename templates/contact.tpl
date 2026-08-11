@@ -1,0 +1,1 @@
+<section class="ogs-section ogs-page"><header class="ogs-section__head"><h1 class="ogs-section__title">Contato</h1></header><div class="ogs-page__content">{{ page.content }}</div>{% if contact %}{{ contact }}{% endif %}</section>

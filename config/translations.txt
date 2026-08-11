@@ -1,0 +1,4 @@
+es "Agregar al carrito"
+pt "Adicionar ao carrinho"
+en "Add to cart"
+es_mx "Agregar al carrito"

@@ -1,0 +1,22 @@
+{
+  "name": "ogs-nuvemshop-theme",
+  "version": "1.0.0",
+  "description": "Tema OGS (Original Gângster Style) para Nuvemshop - Arquitetura de Design High-End",
+  "main": "preview-server.js",
+  "scripts": {
+    "start": "node preview-server.js",
+    "dev": "node preview-server.js"
+  },
+  "keywords": [
+    "nuvemshop",
+    "tiendanube",
+    "theme",
+    "streetwear",
+    "ogs"
+  ],
+  "author": "OGS Team",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
