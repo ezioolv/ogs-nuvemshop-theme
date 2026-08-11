@@ -1,9 +1,5 @@
 {# Página de Produto #}
 <section class="ogs-product-page" id="single-product">
-  <div class="ogs-back-link-wrap ogs-back-link-wrap--pdp">
-    <a href="{{ store.products_url }}" class="ogs-back-link">Voltar à loja</a>
-  </div>
-
   <div class="ogs-product-detail">
     
     {# Galeria de Imagens em Grid Vertical de 2 colunas #}

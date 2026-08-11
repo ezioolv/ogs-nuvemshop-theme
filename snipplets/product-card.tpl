@@ -4,9 +4,7 @@
       <div class="ogs-product__badge-soldout">
         Esgotado
       </div>
-    {% endif %}
-    
-    {% if product.compare_at_price > product.price %}
+    {% elseif product.compare_at_price > product.price %}
       <div class="ogs-product__badge-sale">
         -{{ ((product.compare_at_price - product.price) / product.compare_at_price * 100) | round }}%
       </div>
@@ -34,11 +32,11 @@
     <h3 class="ogs-product__name"><a href="{{ product.url }}">{{ product.name }}</a></h3>
     {% if product.display_price %}
       <div class="ogs-product__pricing">
-        <strong class="ogs-product__price-current">{{ product.price | money }}</strong>
         {% if product.compare_at_price > product.price %}
           <span class="ogs-product__price-compare">{{ product.compare_at_price | money }}</span>
         {% endif %}
-        <p class="ogs-product__installments">ou <strong>10x</strong> de {{ (product.price / 10) | money }} sem juros</p>
+        <strong class="ogs-product__price-current">{{ product.price | money }}</strong>
+        <p class="ogs-product__installments">ou <strong>10x de {{ (product.price / 10) | money }}</strong> sem juros</p>
       </div>
     {% endif %}
   </div>

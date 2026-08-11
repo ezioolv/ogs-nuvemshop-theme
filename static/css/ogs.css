@@ -1984,32 +1984,67 @@ body.ogs {
 }
 
 /* Badges do Card de Produto */
-.ogs-product__badge-sale {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--ogs-contrast);
-  color: var(--ogs-contrast-fg);
-  padding: 4px 8px;
-  font-family: var(--ogs-font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  z-index: 3;
-  border-radius: 0;
-}
-
+.ogs-product__badge-sale,
 .ogs-product__badge-soldout {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: 10px;
+  right: auto;
   background: var(--ogs-contrast);
   color: var(--ogs-contrast-fg);
   padding: 4px 8px;
-  font-family: var(--ogs-font-mono);
-  font-size: 11px;
-  font-weight: 700;
+  font-family: var(--ogs-font-mono); /* Inter */
+  font-size: 12px;
+  font-weight: 500;
   z-index: 3;
   border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Product Info */
+.ogs-product__info {
+  font-family: var(--ogs-font-mono); /* Inter estritamente nos cards */
+}
+.ogs-product__name {
+  font-family: var(--ogs-font-mono); /* Inter estritamente nos cards */
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--ogs-text);
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+.ogs-product__name a {
+  color: inherit;
+}
+.ogs-product__pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--ogs-font-mono); /* Inter */
+  font-size: 12px;
+}
+.ogs-product__price-compare {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ogs-muted);
+  text-decoration: line-through;
+  line-height: 1.25;
+}
+.ogs-product__price-current {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ogs-text);
+  line-height: 1.25;
+}
+.ogs-product__installments {
+  font-size: 12px;
+  font-weight: 700; /* Peso 700 conforme solicitado */
+  color: #777777; /* Cinza chumbo */
+  line-height: 1.25;
+  margin-top: 2px;
 }
 
 /* Header da Categoria e Barra de Filtros */
@@ -2166,42 +2201,7 @@ body.ogs {
 .ogs-product__arrow--prev { left: 8px; }
 .ogs-product__arrow--next { right: 8px; }
 
-.ogs-product__info {
-  font-family: var(--ogs-font-body);
-}
-.ogs-product__name {
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: uppercase;
-  color: var(--ogs-text);
-  margin-bottom: 4px;
-  letter-spacing: 0.02em;
-  line-height: 1.3;
-}
-.ogs-product__name a {
-  color: inherit;
-}
-.ogs-product__pricing {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: var(--ogs-font-mono);
-}
-.ogs-product__price-current {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ogs-text);
-}
-.ogs-product__price-compare {
-  font-size: 12px;
-  color: var(--ogs-muted);
-  text-decoration: line-through;
-}
-.ogs-product__installments {
-  font-size: 11px;
-  color: var(--ogs-muted);
-  margin-top: 2px;
-}
+
 
 /* PDP (PÁGINA DE PRODUTO) ESTILOS DE ALTA FIDELIDADE */
 .ogs-product-page {

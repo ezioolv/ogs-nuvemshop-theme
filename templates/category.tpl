@@ -1,9 +1,6 @@
 {# Página de Categoria/Coleção #}
 <section class="ogs-category-page">
   <div class="ogs-category-header">
-    <div class="ogs-back-link-wrap">
-      <a href="{{ store.products_url }}" class="ogs-back-link">Voltar à loja</a>
-    </div>
     <div class="ogs-category-title-wrap">
       <h1 class="ogs-category-title">{{ category.name }}</h1>
     </div>
