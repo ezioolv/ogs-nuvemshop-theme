@@ -2004,39 +2004,46 @@ body.ogs {
 
 /* Product Info */
 .ogs-product__info {
-  font-family: var(--ogs-font-mono); /* Inter estritamente nos cards */
+  font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .ogs-product__name {
-  font-family: var(--ogs-font-mono); /* Inter estritamente nos cards */
+  font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 400 !important;
   text-transform: uppercase;
   color: var(--ogs-text);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   letter-spacing: 0.02em;
-  line-height: 20px; /* 20px para títulos como HOODIE OGS OVERSIZED */
+  line-height: 20px; /* 20px para títulos */
 }
 .ogs-product__name a {
   color: inherit;
-  font-family: var(--ogs-font-mono);
+  font-family: var(--ogs-font-mono) !important;
+  font-weight: 400 !important;
 }
 .ogs-product__pricing {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  font-family: var(--ogs-font-mono); /* Inter */
+  justify-content: flex-end;
+  font-family: var(--ogs-font-mono) !important; /* Inter */
   font-size: 12px;
+  margin-top: auto;
 }
 .ogs-product__price-compare {
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 400 !important;
   color: var(--ogs-muted);
   text-decoration: line-through;
   line-height: 17px; /* 17px para preços promocionais */
+  min-height: 17px; /* Garante que produtos sem desconto ocupem o mesmo espaço vertical, mantendo o alinhamento de todos os cards */
+  display: block;
 }
 .ogs-product__price-current {
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 400 !important;
   color: var(--ogs-text);
   line-height: 17px; /* 17px para preços */
 }
@@ -2045,10 +2052,14 @@ body.ogs {
   font-weight: 400;
   color: #777777; /* Cinza chumbo */
   line-height: 15px; /* 15px para opções de parcelamento */
-  margin-top: 2px;
+  margin-top: 15px !important; /* Espaçamento de uma linha de texto entre o valor e o parcelamento */
 }
 .ogs-product__installments strong {
-  font-weight: 700; /* Somente a parte contendo valor e parcelas em negrito */
+  font-weight: 700 !important; /* Somente a parte contendo valor e parcelas em negrito */
+}
+
+.ogs-category-description {
+  display: none !important;
 }
 
 /* Header da Categoria e Barra de Filtros */

@@ -32,9 +32,6 @@
       </div>
     </div>
     
-    {% if category.description %}
-      <div class="ogs-category-description">{{ category.description }}</div>
-    {% endif %}
   </div>
 
   {% if products %}
