@@ -2027,7 +2027,6 @@ body.ogs {
   flex-direction: column;
   font-family: var(--ogs-font-mono) !important; /* Inter */
   font-size: 12px;
-  padding-left: 1em; /* Desloca o bloco de preços ~2 espaços para a direita */
 }
 .ogs-product__price-compare {
   font-size: 12px;
@@ -2049,7 +2048,7 @@ body.ogs {
   font-weight: 400;
   color: #777777; /* Cinza chumbo */
   line-height: 15px;
-  margin-top: 2px; /* Igual ao espaçamento nome→preço para padronizar perfeitamente as alturas */
+  margin-top: 3px; /* 1px a mais que nome→preço (2px) para compensar visualmente */
 }
 .ogs-product__installments strong {
   font-weight: 700 !important; /* Somente a parte contendo valor e parcelas em negrito */
