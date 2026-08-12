@@ -1884,9 +1884,11 @@ body.ogs {
    18. PÁGINA DE CATEGORIA / COLEÇÃO
    ========================================================= */
 .ogs-category-page {
-  padding: calc(var(--ogs-topbar-height) + 60px) 0 80px; /* Reduzido para aproximar o título do menu */
-  max-width: var(--ogs-max);
-  margin: 0 auto;
+  padding: calc(var(--ogs-topbar-height) + 60px) 0 80px;
+  width: 100%; /* Full width — cards rentes às bordas da página */
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .ogs-category-header {
@@ -2015,9 +2017,10 @@ body.ogs {
   font-weight: 400 !important;
   text-transform: uppercase;
   color: var(--ogs-text);
-  margin-bottom: 2px; /* 2px entre nome e preços */
+  margin-bottom: 2px;
   letter-spacing: 0.02em;
   line-height: 20px;
+  min-height: 40px; /* Reserva espaço para até 2 linhas de nome — padroniza a altura de todos os cards */
 }
 .ogs-product__name a {
   color: inherit;
