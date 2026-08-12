@@ -2013,7 +2013,7 @@ body.ogs {
   font-weight: 400 !important;
   text-transform: uppercase;
   color: var(--ogs-text);
-  margin-bottom: 8px; /* 8px entre nome e preços */
+  margin-bottom: 2px; /* 2px entre nome e preços */
   letter-spacing: 0.02em;
   line-height: 20px; /* 20px para títulos */
 }
@@ -2027,6 +2027,7 @@ body.ogs {
   flex-direction: column;
   font-family: var(--ogs-font-mono) !important; /* Inter */
   font-size: 12px;
+  padding-left: 1em; /* Desloca o bloco de preços ~2 espaços para a direita */
 }
 .ogs-product__price-compare {
   font-size: 12px;
@@ -2047,8 +2048,8 @@ body.ogs {
   font-size: 12px;
   font-weight: 400;
   color: #777777; /* Cinza chumbo */
-  line-height: 15px; /* 15px para opções de parcelamento */
-  margin-top: 15px; /* Espaçamento de uma linha de texto entre o valor e o parcelamento */
+  line-height: 15px;
+  margin-top: 2px; /* Igual ao espaçamento nome→preço para padronizar perfeitamente as alturas */
 }
 .ogs-product__installments strong {
   font-weight: 700 !important; /* Somente a parte contendo valor e parcelas em negrito */
