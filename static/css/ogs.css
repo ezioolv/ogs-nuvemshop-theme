@@ -2013,7 +2013,7 @@ body.ogs {
   font-weight: 400 !important;
   text-transform: uppercase;
   color: var(--ogs-text);
-  margin-bottom: 15px; /* 15px entre nome e preços */
+  margin-bottom: 8px; /* 8px entre nome e preços */
   letter-spacing: 0.02em;
   line-height: 20px; /* 20px para títulos */
 }
@@ -2135,16 +2135,25 @@ body.ogs {
   color: var(--ogs-text);
 }
 
-/* Grids - 4 Colunas Desktop */
-.ogs-product {
+/* Grids - 4 Colunas Desktop (Categoria/Coleção) */
+.ogs-category-page .ogs-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  overflow-x: visible !important;
+  align-items: flex-start !important; /* Cada card alinha pelo topo — resolve o desalinhamento quando cards vizinhos têm alturas diferentes */
+  scroll-snap-type: none !important;
+  cursor: default !important;
+}
+.ogs-category-page .ogs-product {
   flex: 0 0 50% !important;
   min-width: 50% !important;
   border: none !important;
   padding: 0 2px 24px 2px;
   text-align: left;
+  align-self: flex-start !important; /* Garante que o item não estica para a altura do vizinho */
 }
 @media (min-width: 992px) {
-  .ogs-product {
+  .ogs-category-page .ogs-product {
     flex: 0 0 25% !important;
     min-width: 25% !important;
     padding: 0 2px 32px 2px;
