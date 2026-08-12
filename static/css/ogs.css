@@ -2005,7 +2005,9 @@ body.ogs {
 /* Product Info */
 .ogs-product__info {
   font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
-  padding-top: 10px;
+  padding-top: 8px; /* Espaço entre imagem e nome */
+  padding-left: 0; /* Alinha à borda exata da imagem */
+  padding-right: 0;
 }
 .ogs-product__name {
   font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
@@ -2163,9 +2165,10 @@ body.ogs {
 .ogs-product__img-wrap {
   position: relative;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 0; /* Removido — sem faixa cinza entre imagem e nome */
   aspect-ratio: 3 / 4 !important;
   background: var(--ogs-surface-2);
+  border-bottom: none;
 }
 
 .ogs-product__image {
