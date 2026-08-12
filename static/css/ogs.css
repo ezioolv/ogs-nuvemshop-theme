@@ -2013,7 +2013,7 @@ body.ogs {
   font-weight: 400 !important;
   text-transform: uppercase;
   color: var(--ogs-text);
-  margin-bottom: 30px; /* 30px = 1 linha a mais (15px extra) que a distância preço→parcelamento (15px) */
+  margin-bottom: 15px; /* 15px entre nome e preços */
   letter-spacing: 0.02em;
   line-height: 20px; /* 20px para títulos */
 }
@@ -2064,7 +2064,8 @@ body.ogs {
 }
 .ogs-category-title-wrap {
   text-align: left;
-  margin-bottom: 24px;
+  margin-bottom: 48px; /* Aumentado para centralizar o título entre o menu nav e o filtro */
+  padding-top: 16px; /* Adiciona respiro acima do título */
 }
 .ogs-category-title-wrap .ogs-category-title {
   font-family: var(--ogs-font-display);
