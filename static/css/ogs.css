@@ -2005,9 +2005,9 @@ body.ogs {
 /* Product Info */
 .ogs-product__info {
   font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
-  padding-top: 8px; /* Espaço entre imagem e nome */
-  padding-left: 0; /* Alinha à borda exata da imagem */
-  padding-right: 0;
+  padding-top: 8px;
+  padding-left: 14px;  /* Recuo de 14px da borda esquerda */
+  padding-right: 14px; /* Recuo de 14px da borda direita */
 }
 .ogs-product__name {
   font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
@@ -2017,7 +2017,7 @@ body.ogs {
   color: var(--ogs-text);
   margin-bottom: 2px; /* 2px entre nome e preços */
   letter-spacing: 0.02em;
-  line-height: 20px; /* 20px para títulos */
+  line-height: 20px;
 }
 .ogs-product__name a {
   color: inherit;
@@ -2035,22 +2035,23 @@ body.ogs {
   font-weight: 400 !important;
   color: var(--ogs-muted);
   text-decoration: line-through;
-  line-height: 17px; /* 17px para preços promocionais */
-  min-height: 17px; /* Reserva espaço em produtos sem desconto, mantendo todos os cards alinhados horizontalmente */
+  line-height: 14px; /* Compactado para aproximar do preço atual */
+  min-height: 14px;  /* Mantém o espaço reservado para alinhamento dos cards sem desconto */
   display: block;
+  margin-bottom: 2px; /* 2px de gap entre preço riscado e preço atual */
 }
 .ogs-product__price-current {
   font-size: 12px;
   font-weight: 400 !important;
   color: var(--ogs-text);
-  line-height: 17px; /* 17px para preços */
+  line-height: 17px;
 }
 .ogs-product__installments {
   font-size: 12px;
   font-weight: 400;
   color: #777777; /* Cinza chumbo */
   line-height: 15px;
-  margin-top: 3px; /* 1px a mais que nome→preço (2px) para compensar visualmente */
+  margin-top: 3px;
 }
 .ogs-product__installments strong {
   font-weight: 700 !important; /* Somente a parte contendo valor e parcelas em negrito */
