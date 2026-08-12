@@ -1,4 +1,3 @@
-{# Página de Categoria/Coleção #}
 <section class="ogs-category-page">
   <div class="ogs-category-header">
     <div class="ogs-category-title-wrap">

@@ -1884,7 +1884,7 @@ body.ogs {
    18. PÁGINA DE CATEGORIA / COLEÇÃO
    ========================================================= */
 .ogs-category-page {
-  padding: calc(var(--ogs-topbar-height) + 120px) 0 80px; /* Removendo padding lateral fixo para o grid funcionar melhor, ou usando o wrap no grid */
+  padding: calc(var(--ogs-topbar-height) + 60px) 0 80px; /* Reduzido para aproximar o título do menu */
   max-width: var(--ogs-max);
   margin: 0 auto;
 }
@@ -2005,9 +2005,7 @@ body.ogs {
 /* Product Info */
 .ogs-product__info {
   font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  padding-top: 10px;
 }
 .ogs-product__name {
   font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
@@ -2015,7 +2013,7 @@ body.ogs {
   font-weight: 400 !important;
   text-transform: uppercase;
   color: var(--ogs-text);
-  margin-bottom: 4px;
+  margin-bottom: 30px; /* 30px = 1 linha a mais (15px extra) que a distância preço→parcelamento (15px) */
   letter-spacing: 0.02em;
   line-height: 20px; /* 20px para títulos */
 }
@@ -2027,10 +2025,8 @@ body.ogs {
 .ogs-product__pricing {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   font-family: var(--ogs-font-mono) !important; /* Inter */
   font-size: 12px;
-  margin-top: auto;
 }
 .ogs-product__price-compare {
   font-size: 12px;
@@ -2038,7 +2034,7 @@ body.ogs {
   color: var(--ogs-muted);
   text-decoration: line-through;
   line-height: 17px; /* 17px para preços promocionais */
-  min-height: 17px; /* Garante que produtos sem desconto ocupem o mesmo espaço vertical, mantendo o alinhamento de todos os cards */
+  min-height: 17px; /* Reserva espaço em produtos sem desconto, mantendo todos os cards alinhados horizontalmente */
   display: block;
 }
 .ogs-product__price-current {
@@ -2052,7 +2048,7 @@ body.ogs {
   font-weight: 400;
   color: #777777; /* Cinza chumbo */
   line-height: 15px; /* 15px para opções de parcelamento */
-  margin-top: 15px !important; /* Espaçamento de uma linha de texto entre o valor e o parcelamento */
+  margin-top: 15px; /* Espaçamento de uma linha de texto entre o valor e o parcelamento */
 }
 .ogs-product__installments strong {
   font-weight: 700 !important; /* Somente a parte contendo valor e parcelas em negrito */
