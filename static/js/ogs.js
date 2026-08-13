@@ -231,7 +231,7 @@
   var topbar = document.getElementById('ogs-topbar');
   if (topbar) {
     var messages = [
-      'FRETE GRÁTIS ACIMA DE R$ 299 • ATÉ 6X SEM JUROS • OGS WORLD',
+      'FRETE GRÁTIS ACIMA DE R$ 299 • ATÉ 6X SEM JUROS • NOVOS CAMINHOS, NEW MOVES',
       'PIX COM 5% DE DESCONTO • PAGAMENTO SEGURO',
       'TROCA FÁCIL • ENVIO PARA TODO O BRASIL'
     ];
@@ -391,6 +391,124 @@
       }
     });
   }
+
+  /* =============================================
+     FILTERS (Dropdown Toggle + AJAX sem reload)
+     ============================================= */
+
+  function initFilterDropdowns() {
+    var filterBtns = document.querySelectorAll('.js-filter-toggle');
+
+    if (filterBtns.length === 0) return;
+
+    filterBtns.forEach(function(btn) {
+      // Evitar listeners duplicados após re-render AJAX
+      if (btn.dataset.ogsFilterBound) return;
+      btn.dataset.ogsFilterBound = '1';
+
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var dropdown = btn.nextElementSibling;
+        if (dropdown && dropdown.classList.contains('js-filter-dropdown')) {
+          var isVisible = dropdown.style.display === 'block';
+
+          // Fecha todos os outros dropdowns
+          document.querySelectorAll('.js-filter-dropdown').forEach(function(d) {
+            d.style.display = 'none';
+          });
+
+          // Alterna o atual
+          dropdown.style.display = isVisible ? 'none' : 'block';
+        }
+      });
+    });
+
+    // Fecha ao clicar fora
+    if (!document._ogsFilterOutsideHandler) {
+      document._ogsFilterOutsideHandler = true;
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.ogs-filter-dropdown-wrapper')) {
+          document.querySelectorAll('.js-filter-dropdown').forEach(function(d) {
+            d.style.display = 'none';
+          });
+        }
+      });
+    }
+  }
+
+  /* --- AJAX: intercepta cliques nos links de filtro --- */
+  function initFilterLinks() {
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('.ogs-filter-link');
+      if (!link) return;
+
+      var href = link.getAttribute('href');
+      if (!href || href === '#' || href.startsWith('javascript')) return;
+
+      e.preventDefault();
+
+      // Fecha todos os dropdowns abertos
+      document.querySelectorAll('.js-filter-dropdown').forEach(function(d) {
+        d.style.display = 'none';
+      });
+
+      var targetUrl = href;
+
+      // Feedback visual: spinner/loading no grid
+      var gridWrap = document.querySelector('.ogs-grid-wrap');
+      if (gridWrap) {
+        gridWrap.style.opacity = '0.4';
+        gridWrap.style.pointerEvents = 'none';
+        gridWrap.style.transition = 'opacity 200ms ease';
+      }
+
+      // Atualiza URL sem reload
+      try { window.history.pushState({}, '', targetUrl); } catch(ex) {}
+
+      // Fetch da nova página e extração do grid + filtros
+      fetch(targetUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function(res) { return res.text(); })
+        .then(function(html) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+
+          // Atualiza o grid de produtos
+          var newGridWrap = doc.querySelector('.ogs-grid-wrap');
+          if (newGridWrap && gridWrap) {
+            gridWrap.innerHTML = newGridWrap.innerHTML;
+            gridWrap.style.opacity = '1';
+            gridWrap.style.pointerEvents = '';
+          } else if (gridWrap) {
+            // Fallback: se o servidor não retornou o grid esperado, restaura opacidade
+            gridWrap.style.opacity = '1';
+            gridWrap.style.pointerEvents = '';
+          }
+
+          // Atualiza o contador de itens
+          var newCount = doc.querySelector('.ogs-filter-count');
+          var curCount = document.querySelector('.ogs-filter-count');
+          if (newCount && curCount) curCount.textContent = newCount.textContent;
+
+          // Atualiza os estados selecionados nos dropdowns (links ativos)
+          var newFilterBar = doc.querySelector('.ogs-filter-bar__left');
+          var curFilterBar = document.querySelector('.ogs-filter-bar__left');
+          if (newFilterBar && curFilterBar) {
+            curFilterBar.innerHTML = newFilterBar.innerHTML;
+            initFilterDropdowns(); // Re-bind nos novos botões
+          }
+        })
+        .catch(function() {
+          // Fallback: reload normal caso fetch falhe (CORS ou erro de rede)
+          if (gridWrap) { gridWrap.style.opacity = '1'; gridWrap.style.pointerEvents = ''; }
+          window.location.href = targetUrl;
+        });
+    });
+  }
+
+  initFilterDropdowns();
+  initFilterLinks();
 
 })();
 

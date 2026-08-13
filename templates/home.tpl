@@ -121,19 +121,3 @@
   </div>
 </section>
 
-{# 6. NEWSLETTER #}
-<section class="ogs-newsletter" aria-label="Newsletter OGS" data-reveal="up">
-  <div class="ogs-newsletter__inner">
-    <p class="ogs-newsletter__eyebrow">OGS WORLD</p>
-    <h2 class="ogs-newsletter__title">Fique por dentro</h2>
-    <p class="ogs-newsletter__text">Novidades, drops exclusivos e ofertas direto no seu e-mail.</p>
-    {% if store.newsletter_url %}
-    <form class="ogs-newsletter__form" action="{{ store.newsletter_url }}" method="post">
-      <div class="ogs-newsletter__field">
-        <input class="ogs-newsletter__input" type="email" name="email" placeholder="Seu melhor e-mail" required aria-label="Endereço de e-mail">
-        <button class="ogs-newsletter__btn ogs-btn ogs-btn--primary" type="submit">Cadastrar</button>
-      </div>
-    </form>
-    {% endif %}
-  </div>
-</section>

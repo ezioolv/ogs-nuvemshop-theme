@@ -17,7 +17,7 @@ const MIME = {
 
 // Mock data
 var MOCK_STORE = {
-  url: '/', name: 'OGS WORLD', products_url: '#produtos',
+  url: '/', name: 'NOVOS CAMINHOS, NEW MOVES', products_url: '#produtos',
   search_url: '#busca', customer_home_url: '#conta', cart_url: '#carrinho',
   newsletter_url: '#newsletter'
 };
@@ -66,7 +66,7 @@ function renderTopbar() {
     '<div class="ogs-topbar" id="ogs-topbar">',
     '  <div class="ogs-topbar__inner">',
     '    <button class="ogs-topbar__arrow ogs-topbar__arrow--prev" aria-label="Mensagem anterior">&#8249;</button>',
-    '    <p class="ogs-topbar__text">FRETE GR&#193;TIS ACIMA DE R$ 299 &bull; AT&#201; 6X SEM JUROS &bull; OGS WORLD</p>',
+    '    <p class="ogs-topbar__text">FRETE GR&#193;TIS ACIMA DE R$ 299 &bull; AT&#201; 6X SEM JUROS &bull; NOVOS CAMINHOS, NEW MOVES</p>',
     '    <button class="ogs-topbar__arrow ogs-topbar__arrow--next" aria-label="Pr&#243;xima mensagem">&#8250;</button>',
     '  </div>',
     '</div>'
@@ -80,7 +80,7 @@ function renderHeader(isHome) {
     .replace(/\{%\s*if template == 'home'\s*%\}true\{%\s*else\s*%\}false\{%\s*endif\s*%\}/g, isHome ? 'true' : 'false')
     // Remove topbar block do tpl (já renderizamos separado para evitar duplicata)
     .replace(/<div class="ogs-topbar"[\s\S]*?<\/div>\s*<\/div>\s*\n/g, '')
-    .replace(/\{\{[^}]*settings\.topbar_text[^}]*\}\}/g, 'FRETE GRÁTIS ACIMA DE R$ 299 • ATÉ 6X SEM JUROS • OGS WORLD')
+    .replace(/\\{\\{[^}]*settings\\.topbar_text[^}]*\\}\\}/g, 'FRETE GRÁTIS ACIMA DE R$ 299 • ATÉ 6X SEM JUROS • NOVOS CAMINHOS, NEW MOVES')
     .replace(/\{\{\s*'([^']+)'\s*\|\s*static_url\s*\}\}/g, '/static/$1')
     .replace(/\{\{\s*store\.url\s*\}\}/g, MOCK_STORE.url)
     .replace(/\{\{\s*store\.name\s*\}\}/g, MOCK_STORE.name)
@@ -100,11 +100,23 @@ function renderHeader(isHome) {
 }
 
 function renderFooter() {
+  var suporteLinks = [
+    '<li><a href="#">Central de Ajuda</a></li>',
+    '<li><a href="#">Meus Pedidos</a></li>',
+    '<li><a href="#">Solicitar Troca ou Devolução</a></li>',
+    '<li><a href="#">Política de Privacidade</a></li>',
+    '<li><a href="#">Política de Frete</a></li>',
+    '<li><a href="#">Termos de Serviço</a></li>'
+  ].join('');
+  var institucionalLinks = [
+    '<li><a href="#">Quem Somos</a></li>',
+    '<li><a href="#">Políticas de Troca</a></li>',
+    '<li><a href="#">Contato</a></li>'
+  ].join('');
   return fs.readFileSync(path.join(BASE, 'snipplets/footer.tpl'), 'utf8')
     .replace(/\{\{\s*store\.name\s*\}\}/g, MOCK_STORE.name)
-    .replace(/\{%\s*for item in navigation\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, mobileNavHtml(MOCK_NAV))
-    .replace(/\{%\s*for page in pages\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g,
-      '<li><a href="#">Quem Somos</a></li><li><a href="#">Políticas de Troca</a></li><li><a href="#">Contato</a></li>')
+    .replace(/\{%\s*for item in navigation\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, suporteLinks)
+    .replace(/\{%\s*for page in pages\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, institucionalLinks)
     .replace(/\{\{[^}]*'now'[^}]*\}\}/g, '2026')
     .replace(/\{\{\s*powered_by_link\s*\}\}/g, 'Plataforma Nuvemshop')
     .replace(/\{%[^%]*%\}/g, '')
@@ -128,8 +140,12 @@ function renderCategoryCards() {
   }).join('\n');
 }
 
-function renderProductCards() {
-  return MOCK_PRODUCTS.map(function (p) {
+function renderProductCards(products) {
+  var list = products || MOCK_PRODUCTS;
+  if (list.length === 0) {
+    return '<li style="padding:40px;color:var(--ogs-muted);font-family:Inter,sans-serif;font-size:14px;">Nenhum produto encontrado com os filtros selecionados.</li>';
+  }
+  return list.map(function (p) {
     var installmentVal = money(p.price / 10);
     var discountHTML = '';
     if (p.compare > p.price) {
@@ -232,20 +248,6 @@ function renderHome() {
     '    <button class="ogs-carousel__next" id="ogs-carousel-next" aria-label="Próximas peças">&#8250;</button>',
     '  </div>',
     '</section>',
-    // Newsletter
-    '<section class="ogs-newsletter" aria-label="Newsletter OGS" data-reveal="up">',
-    '  <div class="ogs-newsletter__inner">',
-    '    <p class="ogs-newsletter__eyebrow">OGS WORLD</p>',
-    '    <h2 class="ogs-newsletter__title">Fique por dentro</h2>',
-    '    <p class="ogs-newsletter__text">Novidades, drops exclusivos e ofertas direto no seu e-mail.</p>',
-    '    <form class="ogs-newsletter__form" action="#">',
-    '      <div class="ogs-newsletter__field">',
-    '        <input class="ogs-newsletter__input" type="email" placeholder="Seu melhor e-mail" required>',
-    '        <button class="ogs-newsletter__btn ogs-btn ogs-btn--primary" type="submit">Cadastrar</button>',
-    '      </div>',
-    '    </form>',
-    '  </div>',
-    '</section>'
   ].join('\n');
 }
 
@@ -269,8 +271,55 @@ function renderPage(isHome) {
     .replace(/\{\{[^}]*\}\}/g, '');
 }
 
+/* Parseia query string simples: ?categoria=camisetas&tamanho=m */
+function parseQuery(rawUrl) {
+  var parts = rawUrl.split('?');
+  var q = {};
+  if (parts.length < 2) return q;
+  parts[1].split('&').forEach(function(pair) {
+    var kv = pair.split('=');
+    if (kv[0]) q[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1] || '');
+  });
+  return q;
+}
+
+/* Filtra os produtos mockados por query params */
+function filterProducts(query) {
+  var CATEGORIES = {
+    'camisetas': ['camiseta', 'tee', 'regata'],
+    'moletons': ['moleton', 'hoodie', 'zip'],
+    'shorts': ['short', 'calca', 'cargo'],
+    'regatas': ['regata']
+  };
+  var SIZE_MAP = { 'p': 'P', 'm': 'M', 'g': 'G', 'gg': 'GG' };
+
+  var products = MOCK_PRODUCTS;
+
+  if (query['categoria']) {
+    var cat = query['categoria'].toLowerCase();
+    var keywords = CATEGORIES[cat] || [cat];
+    products = products.filter(function(p) {
+      return keywords.some(function(kw) {
+        return p.name.toLowerCase().indexOf(kw) !== -1;
+      });
+    });
+  }
+
+  // Simulação de filtro por tamanho (tags no nome)
+  if (query['tamanho']) {
+    var sz = SIZE_MAP[query['tamanho'].toLowerCase()] || query['tamanho'].toUpperCase();
+    // No mock, mostra produtos ímpares para P/G e pares para M/GG como simulação
+    var odd = (sz === 'P' || sz === 'G');
+    products = products.filter(function(p, i) { return odd ? i % 2 === 0 : i % 2 === 1; });
+  }
+
+  return products;
+}
+
 var server = http.createServer(function (req, res) {
-  var url = req.url.split('?')[0];
+  var rawUrl = req.url;
+  var url = rawUrl.split('?')[0];
+  var query = parseQuery(rawUrl);
 
   if (url === '/' || url === '/index.html' || url.startsWith('/categoria/') || url === '/sobre' || url === '/community' || url === '/produtos') {
     try {
@@ -301,22 +350,71 @@ var server = http.createServer(function (req, res) {
           .replace(/\{%[^%]*%\}/g, '')
           .replace(/\{\{[^}]*\}\}/g, '');
           
-        html = renderPage(false).replace(/<main>[\s\S]*?<\/main>/, '<main>' + prodTpl + '</main>');
+        html = renderPage(false).replace(/<main>[\s\S]*?<\/main>/, '<main>' + prodTpl + '<\/main>');
       } else if (catName) {
-        var layoutTpl = renderPage(false).replace(/<main>[\s\S]*?<\/main>/, '<main>{% template_content %}</main>');
+        var filteredProducts = filterProducts(query);
+        var layoutTpl = renderPage(false).replace(/<main>[\s\S]*?<\/main>/, '<main>{% template_content %}<\/main>');
+
+        // Gerar HTML de filtros simulados — usa classes CSS, sem style inline conflitante
+        function makeFilterLink(href, label, selected) {
+          return '<li><a href="' + href + '" class="ogs-filter-link' + (selected ? ' ogs-filter-link--active' : '') + '">' + label + '</a></li>';
+        }
+
+        var catLinks = ['camisetas','moletons','shorts','regatas'].map(function(cat) {
+          var sel = query['categoria'] === cat;
+          var href = sel ? url : url + '?categoria=' + cat;
+          var count = MOCK_PRODUCTS.filter(function(p){ return p.name.toLowerCase().indexOf(cat.replace(/s$/,'')) !== -1; }).length;
+          return makeFilterLink(href, cat.charAt(0).toUpperCase() + cat.slice(1) + ' (' + count + ')', sel);
+        }).join('');
+
+        var szLinks = ['p','m','g','gg'].map(function(sz) {
+          var sel = query['tamanho'] === sz;
+          var existingQ = query['categoria'] ? '?categoria=' + query['categoria'] + '&tamanho=' + sz : '?tamanho=' + sz;
+          var href = sel ? (query['categoria'] ? url + '?categoria=' + query['categoria'] : url) : url + existingQ;
+          var counts = {p:4, m:4, g:3, gg:2};
+          return makeFilterLink(href, sz.toUpperCase() + ' (' + counts[sz] + ')', sel);
+        }).join('');
+
+        var arrow = '<svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+        var filterDropdownsHtml = [
+          '<div class="ogs-filter-dropdown-wrapper">',
+          '  <button class="ogs-filter-btn js-filter-toggle" type="button">CATEGORIA ' + arrow + '</button>',
+          '  <div class="ogs-filter-dropdown js-filter-dropdown">',
+          '    <ul class="ogs-filter-list">' + catLinks + '</ul>',
+          '  </div>',
+          '</div>',
+          '<div class="ogs-filter-dropdown-wrapper">',
+          '  <button class="ogs-filter-btn js-filter-toggle" type="button">TAMANHO ' + arrow + '</button>',
+          '  <div class="ogs-filter-dropdown js-filter-dropdown">',
+          '    <ul class="ogs-filter-list">' + szLinks + '</ul>',
+          '  </div>',
+          '</div>'
+        ].join('\n');
+
+        // Indicador de filtro ativo
+        var activeFilters = [];
+        if (query['categoria']) activeFilters.push('CATEGORIA: ' + query['categoria'].toUpperCase());
+        if (query['tamanho']) activeFilters.push('TAMANHO: ' + query['tamanho'].toUpperCase());
+        var activeTag = activeFilters.length > 0
+          ? '<span class="ogs-filter-active-tag" style="font-size:11px;color:var(--ogs-muted);letter-spacing:0.06em;">' + activeFilters.join(' · ') + ' <a href="' + url + '" class="ogs-filter-link" title="Limpar filtros" style="display:inline;padding:0;">✕</a></span>'
+          : '';
+
         var catTpl = fs.readFileSync(path.join(BASE, 'templates/category.tpl'), 'utf8')
           .replace(/\{\{\s*category\.name\s*\}\}/g, catName)
           .replace(/\{%\s*if category\.description\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, '')
+          // Substituir o bloco de filtros usando marcadores fixos (evita problema de regex com {% endif %} aninhados)
+          .replace(/<!--\s*FILTERS_START\s*-->[\s\S]*?<!--\s*FILTERS_END\s*-->/, function() { return filterDropdownsHtml + activeTag; })
           .replace(/\{%\s*if products\s*%\}/g, '')
           .replace(/\{%\s*else\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, '')
-          .replace(/\{%\s*for product in products\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, renderProductCards())
+          .replace(/\{%\s*for product in products\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, renderProductCards(filteredProducts))
           .replace(/\{%\s*include 'snipplets\/pagination\.tpl'\s*%\}/g, '')
-          // Simulate products_count
-          .replace(/\{%\s*if category\.products_count\s*%\}[\s\S]*?\{\{\s*category\.products_count\s*\}\}[\s\S]*?\{%\s*else\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, MOCK_PRODUCTS.length)
-          // Clean residual tags
+          // Simula products_count
+          .replace(/\{%\s*if category\.products_count\s*%\}[\s\S]*?\{%\s*else\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, String(filteredProducts.length))
           .replace(/\{%[^%]*%\}/g, '')
           .replace(/\{\{[^}]*\}\}/g, '');
         html = layoutTpl.replace('{% template_content %}', catTpl);
+
       } else {
         html = renderPage(true);
       }
@@ -345,6 +443,21 @@ var server = http.createServer(function (req, res) {
     res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
     fs.createReadStream(filePath).pipe(res);
   });
+});
+
+server.on('error', function(err) {
+  if (err.code === 'EADDRINUSE') {
+    var fallback = PORT + 1;
+    console.error('\n❌ Porta ' + PORT + ' já está em uso.');
+    console.log('   Tentando porta ' + fallback + ' como alternativa...\n');
+    server.listen(fallback, function() {
+      console.log('\n🚀 OGS Preview Server rodando!');
+      console.log('👉  http://localhost:' + fallback);
+      console.log('\nPressione Ctrl+C para parar.\n');
+    });
+  } else {
+    throw err;
+  }
 });
 
 server.listen(PORT, function () {

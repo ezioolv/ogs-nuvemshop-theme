@@ -1,7 +1,7 @@
 <div class="ogs-topbar" id="ogs-topbar">
   <div class="ogs-topbar__inner">
     <button class="ogs-topbar__arrow ogs-topbar__arrow--prev" aria-label="Mensagem anterior">‹</button>
-    <p class="ogs-topbar__text">FRETE GRÁTIS ACIMA DE R$ 299 • ATÉ 6X SEM JUROS • OGS WORLD</p>
+    <p class="ogs-topbar__text">FRETE GRÁTIS ACIMA DE R$ 299 • ATÉ 6X SEM JUROS • NOVOS CAMINHOS, NEW MOVES</p>
     <button class="ogs-topbar__arrow ogs-topbar__arrow--next" aria-label="Próxima mensagem">›</button>
   </div>
 </div>
@@ -68,9 +68,7 @@
         <li class="ogs-nav__item">
           <a class="ogs-nav__link" href="/community">COMMUNITY</a>
         </li>
-        <li class="ogs-nav__item">
-          <a class="ogs-nav__link" href="/sobre">SOBRE</a>
-        </li>
+
       </ul>
     </nav>
     <div class="ogs-header__actions">

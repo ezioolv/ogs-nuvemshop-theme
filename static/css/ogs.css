@@ -1279,6 +1279,7 @@ body.ogs {
 /* Carrossel arrastável: exibe exatamente 3 cards inteiros + 1 pequeno pedaço do próximo */
 .ogs-grid {
   display: flex;
+  align-items: stretch;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -1306,6 +1307,7 @@ body.ogs {
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
   border-right: 1px solid var(--ogs-line);
   border-bottom: 1px solid var(--ogs-line);
   background: var(--ogs-bg);
@@ -1350,10 +1352,10 @@ body.ogs {
   padding: 20px 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   border-top: 1px solid var(--ogs-line);
   background: var(--ogs-bg);
-  margin-top: auto;
+  flex-grow: 1;
 }
 
 /* Nome da peça: sem negrito, leve e limpo */
@@ -1366,6 +1368,11 @@ body.ogs {
   color: var(--ogs-text);
   margin: 0;
   line-height: 1.4;
+  min-height: calc(1.4 * 0.9rem * 2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .ogs-product__name a {
   color: inherit;
@@ -1373,9 +1380,7 @@ body.ogs {
 }
 
 .ogs-product__pricing {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: contents;
 }
 
 /* Valor atual em BOLD — Inter para números legíveis e precisos */
@@ -1385,6 +1390,16 @@ body.ogs {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ogs-text);
+  margin: 0;
+}
+
+/* Preço antigo, se houver */
+.ogs-product__price-compare {
+  font-family: var(--ogs-font-mono);
+  font-size: 0.85rem;
+  text-decoration: line-through;
+  color: var(--ogs-muted);
+  margin: 0;
 }
 
 /* Texto das parcelas — Inter, peso normal */
@@ -2010,6 +2025,9 @@ body.ogs {
   padding-top: 8px;
   padding-left: 14px;  /* Recuo de 14px da borda esquerda */
   padding-right: 14px; /* Recuo de 14px da borda direita */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 .ogs-product__name {
   font-family: var(--ogs-font-mono) !important; /* Inter estritamente nos cards */
@@ -2017,7 +2035,7 @@ body.ogs {
   font-weight: 400 !important;
   text-transform: uppercase;
   color: var(--ogs-text);
-  margin-bottom: 2px;
+  margin: 0;
   letter-spacing: 0.02em;
   line-height: 20px;
   min-height: 40px; /* Reserva espaço para até 2 linhas de nome — padroniza a altura de todos os cards */
@@ -2030,8 +2048,10 @@ body.ogs {
 .ogs-product__pricing {
   display: flex;
   flex-direction: column;
+  gap: 6px;
   font-family: var(--ogs-font-mono) !important; /* Inter */
   font-size: 12px;
+  margin: 0;
 }
 .ogs-product__price-compare {
   font-size: 12px;
@@ -2039,22 +2059,22 @@ body.ogs {
   color: var(--ogs-muted);
   text-decoration: line-through;
   line-height: 14px; /* Compactado para aproximar do preço atual */
-  min-height: 14px;  /* Mantém o espaço reservado para alinhamento dos cards sem desconto */
+  margin: 0;
   display: block;
-  margin-bottom: 2px; /* 2px de gap entre preço riscado e preço atual */
 }
 .ogs-product__price-current {
   font-size: 12px;
   font-weight: 400 !important;
   color: var(--ogs-text);
   line-height: 17px;
+  margin: 0;
 }
 .ogs-product__installments {
   font-size: 12px;
   font-weight: 400;
   color: #777777; /* Cinza chumbo */
   line-height: 15px;
-  margin-top: 3px;
+  margin: 0;
 }
 .ogs-product__installments strong {
   font-weight: 700 !important; /* Somente a parte contendo valor e parcelas em negrito */
@@ -2573,3 +2593,429 @@ body.ogs {
   }
 }
 
+/* =========================================================
+   14. FILTER BAR (Barra de filtros da página de categoria)
+   ========================================================= */
+
+/* Container principal da barra */
+.ogs-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ogs-line);
+  flex-wrap: wrap;
+}
+
+/* Lado esquerdo: dropdowns de filtro */
+.ogs-filter-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Lado direito: ITENS + CLASSIFICAR + ícones de view */
+.ogs-filter-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+  padding-left: 32px;
+}
+
+/* Botão base de filtro — CATEGORIA, TAMANHO, CLASSIFICAR */
+.ogs-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--ogs-line);
+  color: var(--ogs-text);
+  font-family: var(--ogs-font-head, 'Archivo Black', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.ogs-filter-btn:hover {
+  border-color: var(--ogs-text);
+  color: var(--ogs-text);
+}
+
+/* Contador "N ITENS" — mesmo visual dos filter-btns mas sem borda */
+.ogs-filter-count {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: var(--ogs-muted);
+  font-family: var(--ogs-font-head, 'Archivo Black', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* Wrapper de cada dropdown */
+.ogs-filter-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Painel de opções do dropdown */
+.ogs-filter-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background: var(--ogs-bg);
+  border: 1px solid var(--ogs-line);
+  z-index: 100;
+  min-width: 160px;
+  padding: 8px 0;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25);
+}
+
+/* Lista dentro do dropdown */
+.ogs-filter-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ogs-filter-list li {
+  margin: 0;
+}
+
+/* Link de opção de filtro */
+.ogs-filter-link {
+  display: block;
+  padding: 7px 14px;
+  font-family: var(--ogs-font, 'Inter', sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ogs-muted);
+  text-decoration: none;
+  transition: color 100ms ease, background 100ms ease;
+  white-space: nowrap;
+}
+
+.ogs-filter-link:hover {
+  color: var(--ogs-text);
+  background: var(--ogs-surface-2);
+}
+
+/* Estado selecionado (activo) */
+.ogs-filter-link--active {
+  color: var(--ogs-text);
+  font-weight: 700;
+}
+
+/* Ícones de view (grid 2x2 / compacto) */
+.ogs-filter-views {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ogs-view-btn {
+  background: transparent;
+  border: none;
+  color: var(--ogs-muted);
+  cursor: pointer;
+  padding: 4px;
+  line-height: 0;
+  transition: color 150ms ease;
+}
+
+.ogs-view-btn.active,
+.ogs-view-btn:hover {
+  color: var(--ogs-text);
+}
+
+/* Responsivo: empilha em mobile */
+@media (max-width: 600px) {
+  .ogs-filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .ogs-filter-bar__right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* =========================================================
+   13. FOOTER REESTRUTURADO
+   ========================================================= */
+
+
+/* --- Newsletter Faixa no topo do footer --- */
+.ogs-footer__newsletter {
+  background: var(--ogs-surface-2);
+  border-top: 1px solid var(--ogs-line-strong);
+  border-bottom: 1px solid var(--ogs-line);
+  padding: 28px var(--ogs-pad-x);
+}
+
+.ogs-footer__newsletter-inner {
+  max-width: var(--ogs-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.ogs-footer__newsletter-text {
+  flex: 1 1 260px;
+}
+
+.ogs-footer__newsletter-title {
+  font-family: "Sofia Sans Extra Condensed", "Sofia Sans Condensed", sans-serif;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ogs-text);
+  line-height: 1;
+  margin: 0 0 4px;
+}
+
+.ogs-footer__newsletter-text p {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--ogs-muted);
+  margin: 0;
+}
+
+.ogs-footer__newsletter-form {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1 1 360px;
+  max-width: 500px;
+}
+
+.ogs-footer__newsletter-input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--ogs-surface);
+  border: 1px solid var(--ogs-line-strong);
+  border-right: none;
+  color: var(--ogs-text);
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.82rem;
+  outline: none;
+  transition: border-color var(--ogs-transition);
+}
+
+.ogs-footer__newsletter-input::placeholder {
+  color: var(--ogs-muted);
+}
+
+.ogs-footer__newsletter-input:focus {
+  border-color: var(--ogs-accent);
+}
+
+.ogs-footer__newsletter-btn {
+  padding: 12px 22px;
+  white-space: nowrap;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+/* --- Colunas principais do footer --- */
+.ogs-footer {
+  background: var(--ogs-footer-bg);
+  color: var(--ogs-text-soft);
+}
+
+.ogs-footer__inner {
+  max-width: var(--ogs-max);
+  margin: 0 auto;
+  padding: 48px var(--ogs-pad-x) 36px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Coluna 1: Logo + Slogan */
+.ogs-footer__col--brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ogs-footer__logo {
+  height: 56px;
+  width: auto;
+  max-width: 180px;
+  display: block;
+  object-fit: contain;
+}
+
+.ogs-footer__slogan {
+  font-family: "Sofia Sans Extra Condensed", "Sofia Sans Condensed", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ogs-muted);
+  margin: 0;
+}
+
+/* Colunas 2 e 3: Links */
+.ogs-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ogs-footer__heading {
+  font-family: "Sofia Sans Extra Condensed", "Sofia Sans Condensed", sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--ogs-line);
+}
+
+.ogs-footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ogs-footer__links li a {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--ogs-muted);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color var(--ogs-transition);
+  display: inline-block;
+  position: relative;
+}
+
+.ogs-footer__links li a::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ogs-footer__links li a:hover {
+  color: var(--ogs-text);
+}
+
+.ogs-footer__links li a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* --- Barra inferior (copyright) --- */
+.ogs-footer__bottom {
+  max-width: var(--ogs-max);
+  margin: 0 auto;
+  padding: 18px var(--ogs-pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--ogs-line);
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem;
+  color: var(--ogs-muted);
+  flex-wrap: wrap;
+}
+
+/* --- Responsividade: Tablet --- */
+@media (max-width: 1024px) {
+  .ogs-footer__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    padding: 40px var(--ogs-pad-x) 28px;
+  }
+
+  .ogs-footer__col--brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --- Responsividade: Mobile --- */
+@media (max-width: 768px) {
+  .ogs-footer__newsletter-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .ogs-footer__newsletter-form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ogs-footer__newsletter-input {
+    min-width: 0;
+    flex: 1;
+    font-size: 16px; /* Evita zoom no iOS ao focar */
+  }
+
+  .ogs-footer__newsletter-btn {
+    padding: 12px 16px;
+    font-size: 0.7rem;
+  }
+
+  .ogs-footer__inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px var(--ogs-pad-x) 20px;
+  }
+
+  .ogs-footer__col--brand {
+    grid-column: auto;
+  }
+
+  .ogs-footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px var(--ogs-pad-x);
+  }
+}

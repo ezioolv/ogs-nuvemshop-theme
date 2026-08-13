@@ -6,9 +6,51 @@
     
     <div class="ogs-filter-bar">
       <div class="ogs-filter-bar__left">
-        <button class="ogs-filter-btn" type="button">PREÇO <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button class="ogs-filter-btn" type="button">CATEGORIA <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button class="ogs-filter-btn" type="button">TAMANHO <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <!-- FILTERS_START -->
+        {% if category.filters %}
+          {% for filter in category.filters %}
+            <div class="ogs-filter-dropdown-wrapper" style="position: relative; display: inline-block;">
+              <button class="ogs-filter-btn js-filter-toggle" type="button">
+                {{ filter.name | upper }} 
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="ogs-filter-dropdown js-filter-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: var(--ogs-bg); border: 1px solid var(--ogs-line); z-index: 100; min-width: 150px; padding: 10px;">
+                <ul class="ogs-filter-list" style="list-style: none; margin: 0; padding: 0;">
+                  {% for value in filter.values %}
+                    <li style="margin-bottom: 6px;">
+                      <a href="{{ value.selected ? value.url_to_remove : value.url_to_add }}"
+                         class="ogs-filter-link{% if value.selected %} ogs-filter-link--active{% endif %}">
+                        {{ value.name }} ({{ value.products_count }})
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- MOCK FALLBACK (Caso a API não retorne category.filters ou seja teste local) -->
+          <div class="ogs-filter-dropdown-wrapper" style="position: relative; display: inline-block;">
+            <button class="ogs-filter-btn js-filter-toggle" type="button">CATEGORIA <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="ogs-filter-dropdown js-filter-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: var(--ogs-bg); border: 1px solid var(--ogs-line); z-index: 100; min-width: 150px; padding: 10px;">
+              <ul class="ogs-filter-list" style="list-style: none; margin: 0; padding: 0;">
+                <li style="margin-bottom: 6px;"><a href="?categoria=camisetas" class="ogs-filter-link" style="text-decoration: none; color: var(--ogs-muted);">Camisetas (12)</a></li>
+                <li style="margin-bottom: 6px;"><a href="?categoria=moletons" class="ogs-filter-link" style="text-decoration: none; color: var(--ogs-muted);">Moletons (8)</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ogs-filter-dropdown-wrapper" style="position: relative; display: inline-block; margin-left: 12px;">
+            <button class="ogs-filter-btn js-filter-toggle" type="button">TAMANHO <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="ogs-filter-dropdown js-filter-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: var(--ogs-bg); border: 1px solid var(--ogs-line); z-index: 100; min-width: 150px; padding: 10px;">
+              <ul class="ogs-filter-list" style="list-style: none; margin: 0; padding: 0;">
+                <li style="margin-bottom: 6px;"><a href="?tamanho=p" class="ogs-filter-link" style="text-decoration: none; color: var(--ogs-muted);">P (5)</a></li>
+                <li style="margin-bottom: 6px;"><a href="?tamanho=m" class="ogs-filter-link" style="text-decoration: none; color: var(--ogs-muted);">M (9)</a></li>
+                <li style="margin-bottom: 6px;"><a href="?tamanho=g" class="ogs-filter-link" style="text-decoration: none; color: var(--ogs-muted);">G (2)</a></li>
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+        <!-- FILTERS_END -->
       </div>
       <div class="ogs-filter-bar__right">
         <span class="ogs-filter-count">

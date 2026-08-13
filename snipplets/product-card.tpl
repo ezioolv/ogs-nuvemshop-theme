@@ -32,11 +32,12 @@
     <h3 class="ogs-product__name"><a href="{{ product.url }}">{{ product.name }}</a></h3>
     {% if product.display_price %}
       <div class="ogs-product__pricing">
-        <span class="ogs-product__price-compare">{% if product.compare_at_price > product.price %}{{ product.compare_at_price | money }}{% endif %}</span>
+        {% if product.compare_at_price > product.price %}
+          <span class="ogs-product__price-compare">{{ product.compare_at_price | money }}</span>
+        {% endif %}
         <strong class="ogs-product__price-current">{{ product.price | money }}</strong>
         <p class="ogs-product__installments">ou <strong>10x de {{ (product.price / 10) | money }}</strong> sem juros</p>
       </div>
     {% endif %}
   </div>
 </li>
-
