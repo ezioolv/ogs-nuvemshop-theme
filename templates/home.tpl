@@ -21,13 +21,13 @@
             <source src="{{ 'images/banner-video.mp4' | static_url }}" type="video/mp4">
             <picture>
               <source media="(min-width: 768px)" srcset="{{ 'images/banner-desktop-1.png' | static_url }}">
-              <img src="{{ 'images/banner-mobile-1.jpeg' | static_url }}" alt="Campanha OGS 1" loading="eager">
+              <img src="{{ 'images/banner-mobile-1.png' | static_url }}" alt="Campanha OGS 1" loading="eager">
             </picture>
           </video>
           <!-- Mobile video (<768px) -->
-          <video class="ogs-hero__video ogs-hero__video--mobile" autoplay muted loop playsinline poster="{{ 'images/banner-mobile-1.jpeg' | static_url }}">
+          <video class="ogs-hero__video ogs-hero__video--mobile" autoplay muted loop playsinline poster="{{ 'images/banner-mobile-1.png' | static_url }}">
             <source src="{{ 'images/banner-video-mobile.mp4' | static_url }}" type="video/mp4">
-            <img src="{{ 'images/banner-mobile-1.jpeg' | static_url }}" alt="Campanha OGS 1" loading="eager">
+            <img src="{{ 'images/banner-mobile-1.png' | static_url }}" alt="Campanha OGS 1" loading="eager">
           </video>
         </div>
       </a>
@@ -37,7 +37,7 @@
       <a class="ogs-hero__link" href="{{ store.products_url }}" aria-label="Ver Coleção OGS 2">
         <picture class="ogs-hero__media">
           <source media="(min-width: 768px)" srcset="{{ 'images/banner-desktop-2.png' | static_url }}">
-          <img src="{{ 'images/banner-mobile-2.jpeg' | static_url }}" alt="Campanha OGS 2" loading="lazy">
+          <img src="{{ 'images/banner-mobile-2.png' | static_url }}" alt="Campanha OGS 2" loading="lazy">
         </picture>
       </a>
     </div>
@@ -46,7 +46,7 @@
       <a class="ogs-hero__link" href="{{ store.products_url }}" aria-label="Ver Coleção OGS 3">
         <picture class="ogs-hero__media">
           <source media="(min-width: 768px)" srcset="{{ 'images/banner-desktop-3.png' | static_url }}">
-          <img src="{{ 'images/banner-mobile-3.jpeg' | static_url }}" alt="Campanha OGS 3" loading="lazy">
+          <img src="{{ 'images/banner-mobile-3.png' | static_url }}" alt="Campanha OGS 3" loading="lazy">
         </picture>
       </a>
     </div>
@@ -55,7 +55,7 @@
       <a class="ogs-hero__link" href="{{ store.products_url }}" aria-label="Ver Coleção OGS 4">
         <picture class="ogs-hero__media">
           <source media="(min-width: 768px)" srcset="{{ 'images/banner-desktop-4.png' | static_url }}">
-          <img src="{{ 'images/banner-mobile-4.jpeg' | static_url }}" alt="Campanha OGS 4" loading="lazy">
+          <img src="{{ 'images/banner-mobile-4.png' | static_url }}" alt="Campanha OGS 4" loading="lazy">
         </picture>
       </a>
     </div>

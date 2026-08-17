@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3000;
+const PORT = process.env.PORT || process.env.DEV_PORT || 3000;
 const BASE = __dirname;
 
 const MIME = {
@@ -95,7 +95,8 @@ function renderHeader(isHome) {
     })
     // fallback — remover qualquer tag Twig residual
     .replace(/\{%[^%]*%\}/g, '')
-    .replace(/\{\{[^}]*\}\}/g, '');
+    .replace(/\{\{[^}]*\}\}/g, '')
+    .replace(/\{#[\s\S]*?#\}/g, '');
   return renderTopbar() + '\n' + headerTpl;
 }
 
@@ -120,7 +121,8 @@ function renderFooter() {
     .replace(/\{\{[^}]*'now'[^}]*\}\}/g, '2026')
     .replace(/\{\{\s*powered_by_link\s*\}\}/g, 'Plataforma Nuvemshop')
     .replace(/\{%[^%]*%\}/g, '')
-    .replace(/\{\{[^}]*\}\}/g, '');
+    .replace(/\{\{[^}]*\}\}/g, '')
+    .replace(/\{#[\s\S]*?#\}/g, '');
 }
 
 function renderCategoryCards() {
@@ -218,10 +220,10 @@ function renderHome() {
     // Hero Banner Slider (4 modelos intercaláveis com suporte a Vídeo e Imagem)
     '<section class="ogs-hero" id="ogs-hero" aria-label="Campanha principal">',
     '  <div class="ogs-hero__slider" id="ogs-hero-slider">',
-    '    <div class="ogs-hero__slide ogs-hero__slide--active"><a class="ogs-hero__link" href="#produtos"><div class="ogs-hero__media"><video autoplay muted loop playsinline poster="/static/images/banner-desktop-1.png"><source src="/static/images/banner-video.mp4" type="video/mp4"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-1.png"><img src="/static/images/banner-mobile-1.jpeg" alt="Campanha OGS 1" loading="eager" onerror="this.src=\'/static/images/banner-mobile.jpeg\'; this.previousElementSibling.srcset=\'/static/images/banner-desktop.png\';"></picture></video></div></a></div>',
-    '    <div class="ogs-hero__slide"><a class="ogs-hero__link" href="#produtos"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-2.png"><img src="/static/images/banner-mobile-2.jpeg" alt="Campanha OGS 2" loading="lazy" onerror="this.src=\'/static/images/banner-mobile.jpeg\'; this.previousElementSibling.srcset=\'/static/images/banner-desktop.png\';"></picture></a></div>',
-    '    <div class="ogs-hero__slide"><a class="ogs-hero__link" href="#produtos"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-3.png"><img src="/static/images/banner-mobile-3.jpeg" alt="Campanha OGS 3" loading="lazy" onerror="this.src=\'/static/images/banner-mobile.jpeg\'; this.previousElementSibling.srcset=\'/static/images/banner-desktop.png\';"></picture></a></div>',
-    '    <div class="ogs-hero__slide"><a class="ogs-hero__link" href="#produtos"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-4.png"><img src="/static/images/banner-mobile-4.jpeg" alt="Campanha OGS 4" loading="lazy" onerror="this.src=\'/static/images/banner-mobile.jpeg\'; this.previousElementSibling.srcset=\'/static/images/banner-desktop.png\';"></picture></a></div>',
+    '    <div class="ogs-hero__slide ogs-hero__slide--active"><a class="ogs-hero__link" href="#produtos"><div class="ogs-hero__media"><video autoplay muted loop playsinline poster="/static/images/banner-desktop-1.png"><source src="/static/images/banner-video.mp4" type="video/mp4"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-1.png"><img src="/static/images/banner-mobile-1.png" alt="Campanha OGS 1" loading="eager"></picture></video></div></a></div>',
+    '    <div class="ogs-hero__slide"><a class="ogs-hero__link" href="#produtos"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-2.png"><img src="/static/images/banner-mobile-2.png" alt="Campanha OGS 2" loading="lazy"></picture></a></div>',
+    '    <div class="ogs-hero__slide"><a class="ogs-hero__link" href="#produtos"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-3.png"><img src="/static/images/banner-mobile-3.png" alt="Campanha OGS 3" loading="lazy"></picture></a></div>',
+    '    <div class="ogs-hero__slide"><a class="ogs-hero__link" href="#produtos"><picture class="ogs-hero__media"><source media="(min-width: 768px)" srcset="/static/images/banner-desktop-4.png"><img src="/static/images/banner-mobile-4.png" alt="Campanha OGS 4" loading="lazy"></picture></a></div>',
     '  </div>',
     '  <button class="ogs-hero__arrow ogs-hero__arrow--prev" id="ogs-hero-prev" aria-label="Banner anterior">&#8249;</button>',
     '  <button class="ogs-hero__arrow ogs-hero__arrow--next" id="ogs-hero-next" aria-label="Pr&#243;ximo banner">&#8250;</button>',
@@ -321,7 +323,7 @@ var server = http.createServer(function (req, res) {
   var url = rawUrl.split('?')[0];
   var query = parseQuery(rawUrl);
 
-  if (url === '/' || url === '/index.html' || url.startsWith('/categoria/') || url === '/sobre' || url === '/community' || url === '/produtos') {
+  if (url === '/' || url === '/index.html' || url.startsWith('/categoria/') || url === '/sobre' || url === '/community' || url === '/produtos' || url.startsWith('/produto/')) {
     try {
       var html;
       var catName = '';
@@ -347,8 +349,13 @@ var server = http.createServer(function (req, res) {
           .replace(/\{%\s*if product\.variations\s*%\}/g, '')
           .replace(/\{%\s*for variation in product\.variations\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, '<label>Tamanho<select><option>P</option><option>M</option><option>G</option><option>GG</option></select></label>')
           .replace(/\{%\s*if product\.description\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, '<div class="ogs-product-description"><p>O Hoodie definitivo para o seu streetwear. Modelagem boxy oversized com moletom premium de 400gsm. Construído para durar.</p></div>')
+          .replace(/\{%\s*if not product\.available\s*%\}[\s\S]*?disabled\{%\s*endif\s*%\}/g, '')
+          .replace(/\{%\s*if product\.available\s*%\}ADICIONAR AO CARRINHO\{%\s*else\s*%\}SEM ESTOQUE\{%\s*endif\s*%\}/g, 'ADICIONAR AO CARRINHO')
+          .replace(/\{%\s*set related_products\s*=\s*sections\.primary\.products\s*%\}/g, '')
+          .replace(/\{%\s*for product in related_products\s*\|\s*slice\(0,\s*4\)\s*%\}[\s\S]*?\{%\s*endfor\s*%\}/g, renderProductCards(MOCK_PRODUCTS.slice(0, 4)))
           .replace(/\{%[^%]*%\}/g, '')
-          .replace(/\{\{[^}]*\}\}/g, '');
+          .replace(/\{\{[^}]*\}\}/g, '')
+          .replace(/\{#[\s\S]*?#\}/g, '');
           
         html = renderPage(false).replace(/<main>[\s\S]*?<\/main>/, '<main>' + prodTpl + '<\/main>');
       } else if (catName) {
@@ -412,7 +419,8 @@ var server = http.createServer(function (req, res) {
           // Simula products_count
           .replace(/\{%\s*if category\.products_count\s*%\}[\s\S]*?\{%\s*else\s*%\}[\s\S]*?\{%\s*endif\s*%\}/g, String(filteredProducts.length))
           .replace(/\{%[^%]*%\}/g, '')
-          .replace(/\{\{[^}]*\}\}/g, '');
+          .replace(/\{\{[^}]*\}\}/g, '')
+          .replace(/\{#[\s\S]*?#\}/g, '');
         html = layoutTpl.replace('{% template_content %}', catTpl);
 
       } else {
